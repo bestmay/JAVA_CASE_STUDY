@@ -13,6 +13,7 @@ Employees
 -String project
 -String Skills (validate)
 -String organization
+-String Permission
 
 Generate Reports
 
