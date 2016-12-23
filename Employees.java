@@ -12,7 +12,7 @@ import java.util.Scanner;
  */
 public class Employees {
     private String name;
-    private long EmpId;
+    private double EmpId;
     private String band;
     private String grade;
     private String vertical;
@@ -20,7 +20,7 @@ public class Employees {
     private String skills;
     private String org;
 
-    public Employees(String name, long EmpId, String band, String grade, 
+    public Employees(String name, double EmpId, String band, String grade, 
             String vertical, String project, String skills, String org) {
         this.name = name;
         this.EmpId = EmpId;
@@ -40,7 +40,7 @@ public class Employees {
         this.name = name;
     }
 
-    public long getEmpId() {
+    public double getEmpId() {
         return EmpId;
     }
 
