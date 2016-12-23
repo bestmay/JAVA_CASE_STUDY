@@ -40,7 +40,7 @@ public class Employees {
         this.name = name;
     }
 
-    public long getEmpId() {
+    public double getEmpId() {
         return EmpId;
     }
 
