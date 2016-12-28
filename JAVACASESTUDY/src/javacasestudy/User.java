@@ -18,8 +18,8 @@ import java.util.Scanner;
  */
 public class User {
 
-    String permission;
-    String username;
+    private String permission;
+    private String username;
     
     public User() {
         while(true)
@@ -65,6 +65,15 @@ public class User {
             System.out.println(ex);
             return false;
         }
-        
     }
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+    
+    
 }
