@@ -96,7 +96,33 @@ public class Employees {
         this.org = org;
     }   
     
+    public static void GenerateReport() throws IOException{        
+        File file =  new File("C:/temp/emp_details.pdf");        
+        PDDocument document = new PDDocument();                
+        PDPage blankPage = new PDPage();        
+        document.addPage(blankPage);                
+        PDPage page =  document.getPage(0);        
+        PDPageContentStream contentStream = new PDPageContentStream(document,page);                
+        contentStream.beginText();                
+        contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);        
+        contentStream.newLineAtOffset(25, 500);        
+        String text = "This is the sample document and we are adding"                
+            + "content to it";        
+        contentStream.showText(text);        
+        contentStream.endText();                
+        System.out.println("Content added");                
+        contentStream.close();                
+        document.save(new File("C:/temp/emp_details.pdf"));                
+        document.close();    
+    }
+    
     public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);        
+        try{            
+            GenerateReport();        
+        }catch(Exception e){           
+            System.out.println(e);        
+        }             
         /*Scanner in = new Scanner(System.in);
         
         System.out.println("Name");
