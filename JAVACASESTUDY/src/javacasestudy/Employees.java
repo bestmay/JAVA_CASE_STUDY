@@ -33,6 +33,7 @@ public class Employees {
         this.vertical = vertical;
         this.project = project;
         this.skills = skills;
+        this.org = org;
     }
 
     public Employees(ResultSet rset) {
@@ -45,9 +46,19 @@ public class Employees {
             this.skills = rset.getString(6);
             this.grade = rset.getString(7);
             this.band = rset.getString(8);
+            this.org = rset.getString(10);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+    
+    public Employees()
+    {
+        
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public String getFirstName() {
@@ -62,7 +73,11 @@ public class Employees {
         return empId;
     }
 
-    public void setEmpId(long EmpId) {
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmpId(double EmpId) {
         this.empId = EmpId;
     }
 
@@ -116,7 +131,7 @@ public class Employees {
 
     @Override
     public String toString() {
-        return "Employees{" + "firstName=" + firstName + ", lastName=" + lastName + ", empId=" + empId + ", band=" + band + ", grade=" + grade + ", vertical=" + vertical + ", project=" + project + ", skills=" + skills + ", org=" + org + '}';
+        return "Name: " + firstName + " " + lastName + "  Employee Id: " + (int)empId + "  band: " + band + "  grade: " + grade + "  vertical: " + vertical + "  project: " + project + "  skills: " + skills + "  org: " + org;
     }
 
 }
