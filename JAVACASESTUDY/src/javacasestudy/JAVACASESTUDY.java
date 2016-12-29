@@ -44,7 +44,7 @@ public class JAVACASESTUDY {
                         Query.viewEmployee();
                         break;
                     case "EDIT":
-                        Query.editEmployee();
+                        Query.editEmployee(user1);
                         break;
                     case "REMOVE":
                         Query.removeEmployee();

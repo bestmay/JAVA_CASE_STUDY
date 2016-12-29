@@ -75,15 +75,88 @@ public class Query {
         }
     }
 
-    public static void editEmployee() {
-        System.out.println("Enter Employee ID to be Edited:");
+    public static void editEmployee(User user1) throws SQLException {
+        Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/trng", "trng1", "trng1");
+        PreparedStatement pstmt = con.prepareStatement("Select * From Employees Where pending_approval=true");
         Scanner sn = new Scanner(System.in);
-        double empID = sn.nextDouble();
+        pstmt.execute();
+        ResultSet rset = pstmt.getResultSet();
+        if (user1.getPermission().equals("admn")) {
+            System.out.println("The following changes require approval");
+            while (rset.next()) {
+                Employees emp = new Employees(rset);
+                System.out.println(emp);
+                System.out.println("Keep Changes? (y/n)");
+                if(sn.nextLine().equals("y")){
+                    pstmt = con.prepareStatement("update Employees set pending_approval=false where employee_id=?");
+                    pstmt.setDouble(1, emp.getEmpId());
+                }
+                
+            }
+            System.out.println("No pending approvals.");
+        }
+        System.out.println("Enter Employee ID to be Edited:");
+        
+        double empID = Double.parseDouble(sn.nextLine());
 
-        try {
+        pstmt = con.prepareStatement("Select * From Employees Where Employee_Id=?");
+        pstmt.setDouble(1, empID);
+        pstmt.execute();
+        rset = pstmt.getResultSet();
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        if (!rset.next()) {
+            System.out.println("Query Failed");
+        } else {
+            Employees e = new Employees(rset);
+            System.out.println("Current first name: " + e.getFirstName());
+            System.out.print("New first name: ");
+            e.setFirstName(sn.nextLine());
+            System.out.println("Current last name: " + e.getLastName());
+            System.out.print("New last name: ");
+            e.setLastName(sn.nextLine());
+            System.out.println("Current band: " + e.getBand());
+            System.out.print("New band: ");
+            e.setBand(sn.nextLine());
+            System.out.println("Current grade: " + e.getGrade());
+            System.out.print("New grade: ");
+            e.setGrade(sn.nextLine());
+            System.out.println("Current vertical: " + e.getVertical());
+            System.out.print("New vertical: ");
+            e.setVertical(sn.nextLine());
+            System.out.println("Current project: " + e.getProject());
+            System.out.print("New project: ");
+            e.setProject(sn.nextLine());
+            System.out.println("Current skills: " + e.getSkills());
+            System.out.print("New skills: ");
+            e.setSkills(sn.nextLine());
+            System.out.println("Current organization: " + e.getOrg());
+            System.out.print("New organization: ");
+            e.setOrg(sn.nextLine());
+
+            if(user1.getPermission().equals("admn"))
+            {
+            pstmt = con.prepareStatement("update Employees set first_name=?,last_name=?,"
+                    + "verticle=?,project=?,skills=?,grade=?,band=?, organization=?"
+                    + "Where employee_id=?");
+            }
+            else{
+                pstmt = con.prepareStatement("update Employees set first_name=?,last_name=?,"
+                    + "verticle=?,project=?,skills=?,grade=?,band=?,pending_approval=true, organization=?"
+                    + "Where employee_id = ?");
+            }
+            pstmt.setString(1, e.getFirstName());
+            pstmt.setString(2, e.getLastName());
+            pstmt.setString(3, e.getVertical());
+            pstmt.setString(4, e.getProject());
+            pstmt.setString(5, e.getSkills());
+            pstmt.setString(6, e.getGrade());
+            pstmt.setString(7, e.getBand());
+            pstmt.setString(8, e.getOrg());
+            pstmt.setDouble(9, empID);
+            pstmt.execute();
+            rset = pstmt.getResultSet();
+
+            System.out.println("Employee Edited!");
         }
     }
 
