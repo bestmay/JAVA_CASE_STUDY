@@ -5,10 +5,70 @@
  */
 package javacasestudy;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDDocumentInformation;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+
 /**
  *
  * @author syntel
  */
 public class Documents {
-    
+
+    public static void printPDF(ArrayList<Employees> emps) throws IOException {
+        //Creates new PDF Document
+        PDDocument doc = new PDDocument();
+        //Creates a black PDF Page
+        PDPage blankPage = new PDPage();
+        //Add blank page to the PDF Document
+        doc.addPage(blankPage);
+        //Creating the PDDocumentInformation object 
+        PDDocumentInformation pdd = doc.getDocumentInformation();
+        PDPageContentStream contentStream = new PDPageContentStream(doc, blankPage);
+        //Setting the author of the document
+        pdd.setAuthor("Syntel");
+
+        // Setting the title of the document
+        pdd.setTitle("Employee Details");
+
+        //Setting the creator of the document 
+        pdd.setCreator("Syntel");
+
+        //Setting the subject of the document 
+        pdd.setSubject("Employee Details");
+
+        
+
+        //Begin Content Stream
+        contentStream.beginText();
+
+        //Setting the font to the Content stream
+        contentStream.setFont(PDType1Font.TIMES_ROMAN, 16);
+
+        //Setting the leading
+        contentStream.setLeading(14.5f);
+
+        //Setting the position for the line
+        contentStream.newLineAtOffset(25, 725);
+        
+        for(Employees e:emps)
+        {
+          contentStream.showText(e.toString());
+          contentStream.newLine();
+        }
+        contentStream.endText();
+        contentStream.close();
+        
+        //Saving the document 
+        doc.save("../employee_details.pdf");
+        //Closing the document
+        doc.close();
+
+    }
+
 }

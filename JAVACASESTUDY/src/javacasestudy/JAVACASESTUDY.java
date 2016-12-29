@@ -31,7 +31,7 @@ public class JAVACASESTUDY {
                 System.out.println("VIEW | EDIT | QUIT");
             } else {
                 System.out.println("Type what would you like to do:");
-                System.out.println("ADD | VIEW | REMOVE | EDIT | REPORT | DOWNLOAD | QUIT");
+                System.out.println("ADD | VIEW | REMOVE | EDIT | REPORT | QUIT");
             }
             Scanner sn = new Scanner(System.in);
             String ans = sn.nextLine();

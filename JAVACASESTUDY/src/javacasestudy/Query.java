@@ -105,9 +105,9 @@ public class Query {
         System.out.println("Input orgnization name to view:");
         Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/trng", "trng1", "trng1");
         String org;
-        Scanner kb = new Scanner(System.in);
+        Scanner sn = new Scanner(System.in);
         //Re-prompt user for valid id while an invalid id is entered.        
-        org = kb.nextLine();
+        org = sn.nextLine();
         //Create a statemement connect and prepared statement for execution 
         Statement stmt = con.createStatement();
         PreparedStatement pstmt = con.prepareStatement("Select * From Employees Where organization=?");
@@ -120,8 +120,20 @@ public class Query {
             System.out.println(emp);
             emps.add(emp);
         }
-        
-       
+
+        System.out.println("Would you like to download the report as a pdf? (y/n)");
+
+        String ans = sn.nextLine();
+        if (ans.toLowerCase().equals("y")) {
+            try {
+                Documents.printPDF(emps);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            System.out.println("returning to menu...");
+        }
+
     }
 
 }

@@ -68,14 +68,14 @@ public class Employees {
     public void setFirstName(String name) {
         this.firstName = name;
     }
-
-    public double getEmpId() {
-        return empId;
-    }
-
+    
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public double getEmpId() {
+        return empId;
+    }   
 
     public void setEmpId(double EmpId) {
         this.empId = EmpId;
