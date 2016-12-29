@@ -56,10 +56,12 @@ public class Query {
         e.setProject(kb.nextLine());
         System.out.println("Please input new employee's skills:");
         e.setSkills(kb.nextLine());
+        System.out.println("Please input new employee's organization:");
+        e.setOrg(kb.nextLine());
         try {
             Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/trng", "trng1", "trng1");
             Statement stmt = con.createStatement();
-            PreparedStatement pstmt = con.prepareStatement("INSERT INTO Employees VALUES(?,?,?,?,?,?,?,?)");
+            PreparedStatement pstmt = con.prepareStatement("INSERT INTO Employees VALUES(?,?,?,?,?,?,?,?,false,?)");
             pstmt.setDouble(1, e.getEmpId());
             pstmt.setString(2, e.getFirstName());
             pstmt.setString(3, e.getLastName());
@@ -68,6 +70,7 @@ public class Query {
             pstmt.setString(6, e.getSkills());
             pstmt.setString(7, e.getGrade());
             pstmt.setString(8, e.getBand());
+            pstmt.setString(9, e.getOrg());
             pstmt.execute();
             ResultSet rset = pstmt.getResultSet();
         } catch (Exception ex) {
