@@ -1,4 +1,3 @@
-<<<<<<< HEAD:Employees.java
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -6,14 +5,22 @@
  */
 package CaseStudy;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
+
 /**
  *
  * @author syntel
  */
 public class Employees {
-    private String name;
-    private double EmpId;
+    private String firstName;
+    private String lastName;
+    private double empId;
     private String band;
     private String grade;
     private String vertical;
@@ -21,10 +28,15 @@ public class Employees {
     private String skills;
     private String org;
 
-    public Employees(String name, double EmpId, String band, String grade, 
+    public Employees() {
+    }
+
+    
+    public Employees(String firstName, String lastName, double empId, String band, String grade, 
             String vertical, String project, String skills, String org) {
-        this.name = name;
-        this.EmpId = EmpId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.empId = empId;
         this.band = band;
         this.grade = grade;
         this.vertical = vertical;
@@ -33,20 +45,28 @@ public class Employees {
         this.org = org;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+        
     public double getEmpId() {
-        return EmpId;
+        return empId;
     }
 
-    public void setEmpId(long EmpId) {
-        this.EmpId = EmpId;
+    public void setEmpId(double EmpId) {
+        this.empId = EmpId;
     }
 
     public String getBand() {
@@ -97,173 +117,90 @@ public class Employees {
         this.org = org;
     }   
     
-    public static void GenerateReport() throws IOException{        
-        File file =  new File("C:/temp/emp_details.pdf");        
-        PDDocument document = new PDDocument();                
-        PDPage blankPage = new PDPage();        
-        document.addPage(blankPage);                
-        PDPage page =  document.getPage(0);        
-        PDPageContentStream contentStream = new PDPageContentStream(document,page);                
-        contentStream.beginText();                
-        contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);        
-        contentStream.newLineAtOffset(25, 500);        
-        String text = "This is the sample document and we are adding"                
-            + "content to it";        
-        contentStream.showText(text);        
-        contentStream.endText();                
-        System.out.println("Content added");                
-        contentStream.close();                
-        document.save(new File("C:/temp/emp_details.pdf"));                
-        document.close();    
+    public static void GenerateReport() throws SQLException{
+        
+        System.out.println("Input employee id to view:");
+        Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/CaseStudy", "altimarimj", "case");
+        double id;
+        Scanner kb = new Scanner(System.in);
+        //Re-prompt user for valid id while an invalid id is entered.
+        while(!kb.hasNextDouble()){
+            System.out.println("Please input a valid id to view:");
+        }
+        id=kb.nextDouble();
+        //Create a statemement connect and prepared statement for execution 
+        Statement stmt=con.createStatement();
+        PreparedStatement pstmt = con.prepareStatement("Select * From Employees E Where E.EmpId=?;");
+        pstmt.setDouble(1,id);
+        pstmt.execute();
+        ResultSet rset = pstmt.getResultSet();
+        
+        id=rset.getDouble("Employee_id");
+        String name = rset.getString("First_Name");
+        name += rset.getString("Last_Name");
+        String band = rset.getString("Band");
+        String grade = rset.getString("Grade");
+        String vertical = rset.getString("Verticle");
+        String project = rset.getString("Project");
+        String skills = rset.getString("Skills"); 
+        String org = rset.getString("Org");
+        
+        System.out.println("Name: " + name + "\n" +
+                "Emp ID: " + id + "\n" +
+                "Band: " + band + "\n" +
+                "Grade: " + grade + "\n" +
+                "Vertical: " + vertical + "\n" +
+                "Project: " + project + "\n" +
+                "Skills: " + skills + "\n" +
+                "Organization: " + org);
+        
+       Employees e = new Employees();
+       e.setFirstName(rset.getString("First_Name"));
+       e.setLastName(rset.getString("Last_Name"));
+       e.setEmpId(id);
+       e.setBand(band);
+       e.setGrade(grade);
+       e.setVertical(vertical);
+       e.setProject(project);
+       e.setSkills(skills);
+       e.setOrg(org);
+        
+//        Connection con;
+//        Statement stmt;
+//        PreparedStatement ps;
+//        
+//        try {
+//            // Step 1: Register the driver with the proper path name
+//            Class.forName("org.apache.derby.jdbc.ClientDriver");
+//        } catch (ClassNotFoundException ex) {
+//            System.out.println("Exception with driver: " + ex.getMessage());
+//        }
+//        
+//        try{
+//            // Step 2: Establish the connection to the database
+//            con = DriverManager.getConnection("jdbc:derby://localhost:1527/CaseStudy","altimarimj","case");
+//            // Step 3: Get the statement
+//            stmt = con.createStatement();
+//            
+//            // Step 4: Compare the results
+//            ps = con.prepareStatement("select * from emloyees where employee_id = ?");
+//            ps.setInt(1, 5037066);                      
+//            ps.execute();
+//            
+//            ps.close();
+//            stmt.close();
+//            con.close();
+//        }catch(SQLException ex){
+//            System.out.println("SQL Exception: " + ex.getMessage());
+//            ex.printStackTrace();
+//        }
     }
-    
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);        
-        try{            
-            GenerateReport();        
-        }catch(Exception e){           
-            System.out.println(e);        
-        }             
-        /*Scanner in = new Scanner(System.in);
-        
-        System.out.println("Name");
-        name = in.nextLine();
-        
-        System.out.println("Employee ID");
-        
-        System.out.println("Band");
-        
-        System.out.println("Grade");
-        
-        System.out.println("Vertical");
-        
-        System.out.println("Project");
-        
-        System.out.println("Skills");
-        
-        System.out.println("Organization");
-        */
+   
+    public static void main(String[] args) {                 
+        try{
+            GenerateReport();
+        }catch(Exception e){
+            System.out.println(e);
+        }                           
     }
 }
-=======
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package JavaCaseStudy;
-
-import java.util.Scanner;
-/**
- *
- * @author syntel
- */
-public class Employees {
-    private String name;
-    private double EmpId;
-    private String band;
-    private String grade;
-    private String vertical;
-    private String project;
-    private String skills;
-    private String org;
-
-    public Employees(String name, double EmpId, String band, String grade, 
-            String vertical, String project, String skills, String org) {
-        this.name = name;
-        this.EmpId = EmpId;
-        this.band = band;
-        this.grade = grade;
-        this.vertical = vertical;
-        this.project = project;
-        this.skills = skills;
-        this.org = org;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getEmpId() {
-        return EmpId;
-    }
-
-    public void setEmpId(long EmpId) {
-        this.EmpId = EmpId;
-    }
-
-    public String getBand() {
-        return band;
-    }
-
-    public void setBand(String band) {
-        this.band = band;
-    }
-
-    public String getGrade() {
-        return grade;
-    }
-
-    public void setGrade(String grade) {
-        this.grade = grade;
-    }
-
-    public String getVertical() {
-        return vertical;
-    }
-
-    public void setVertical(String vertical) {
-        this.vertical = vertical;
-    }
-
-    public String getProject() {
-        return project;
-    }
-
-    public void setProject(String project) {
-        this.project = project;
-    }
-
-    public String getSkills() {
-        return skills;
-    }
-
-    public void setSkills(String skills) {
-        this.skills = skills;
-    }
-
-    public String getOrg() {
-        return org;
-    }
-
-    public void setOrg(String org) {
-        this.org = org;
-    }   
-    
-    public static void main(String[] args) {
-        /*Scanner in = new Scanner(System.in);
-        
-        System.out.println("Name");
-        name = in.nextLine();
-        
-        System.out.println("Employee ID");
-        
-        System.out.println("Band");
-        
-        System.out.println("Grade");
-        
-        System.out.println("Vertical");
-        
-        System.out.println("Project");
-        
-        System.out.println("Skills");
-        
-        System.out.println("Organization");
-        */
-    }
-}
->>>>>>> refs/remotes/origin/master:JAVACASESTUDY/src/javacasestudy/Employees.java
