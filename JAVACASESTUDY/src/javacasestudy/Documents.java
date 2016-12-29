@@ -48,7 +48,7 @@ public class Documents {
         contentStream.beginText();
 
         //Setting the font to the Content stream
-        contentStream.setFont(PDType1Font.TIMES_ROMAN, 16);
+        contentStream.setFont(PDType1Font.COURIER, 16);
 
         //Setting the leading
         contentStream.setLeading(14.5f);
@@ -56,9 +56,13 @@ public class Documents {
         //Setting the position for the line
         contentStream.newLineAtOffset(25, 725);
         
+        contentStream.showText("Employee Name        Emp. ID     Band  Grade Vertical             Organization");  
+        contentStream.newLine();
+        contentStream.newLine();
+        
         for(Employees e:emps)
         {
-          contentStream.showText(e.toString());
+          contentStream.showText(e.display());
           contentStream.newLine();
         }
         contentStream.endText();

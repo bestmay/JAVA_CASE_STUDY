@@ -61,16 +61,16 @@ public class Query {
         try {
             Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/trng", "trng1", "trng1");
             Statement stmt = con.createStatement();
-            PreparedStatement pstmt = con.prepareStatement("INSERT INTO Employees VALUES(?,?,?,?,?,?,?,?,false,?)");
-            pstmt.setDouble(1, e.getEmpId());
-            pstmt.setString(2, e.getFirstName());
-            pstmt.setString(3, e.getLastName());
-            pstmt.setString(4, e.getVertical());
-            pstmt.setString(5, e.getProject());
-            pstmt.setString(6, e.getSkills());
-            pstmt.setString(7, e.getGrade());
-            pstmt.setString(8, e.getBand());
-            pstmt.setString(9, e.getOrg());
+            PreparedStatement pstmt = con.prepareStatement("INSERT INTO Employees VALUES(?,?,?,?,?,?,?,false,?,?)");
+            pstmt.setDouble(9, e.getEmpId());
+            pstmt.setString(1, e.getFirstName());
+            pstmt.setString(2, e.getLastName());
+            pstmt.setString(3, e.getVertical());
+            pstmt.setString(4, e.getProject());
+            pstmt.setString(5, e.getSkills());
+            pstmt.setString(6, e.getGrade());
+            pstmt.setString(7, e.getBand());
+            pstmt.setString(8, e.getOrg());
             pstmt.execute();
             ResultSet rset = pstmt.getResultSet();
         } catch (Exception ex) {
@@ -88,18 +88,35 @@ public class Query {
             System.out.println("The following changes require approval");
             while (rset.next()) {
                 Employees emp = new Employees(rset);
-                System.out.println(emp);
-                System.out.println("Keep Changes? (y/n)");
-                if(sn.nextLine().equals("y")){
-                    pstmt = con.prepareStatement("update Employees set pending_approval=false where employee_id=?");
-                    pstmt.setDouble(1, emp.getEmpId());
+                pstmt = con.prepareStatement("Select * From Employees Where pending_approval=false and employee_id=?");
+                pstmt.setDouble(1, emp.getEmpId());
+                pstmt.execute();
+                ResultSet rset2 = pstmt.getResultSet();
+                if (rset2.next()) {
+                    Employees oldEmp = new Employees(rset2);
+                    System.out.println("Old record: " + oldEmp);
+                    System.out.println("New record: " + emp);
+                    System.out.println("Keep Changes? (y/n)");
+                    if (sn.nextLine().equals("y")) {
+                        pstmt = con.prepareStatement("delete from Employees where pending_approval=false and employee_id=?");
+                        pstmt.setDouble(1, emp.getEmpId());
+                        pstmt.execute();
+
+                        pstmt = con.prepareStatement("update Employees set pending_approval=false where employee_id=?");
+                        pstmt.setDouble(1, emp.getEmpId());
+                        pstmt.execute();
+                    } else {
+                        pstmt = con.prepareStatement("delete from Employees where pending_approval=true and employee_id=?");
+                        pstmt.setDouble(1, emp.getEmpId());
+                        pstmt.execute();
+                    }
+
                 }
-                
             }
             System.out.println("No pending approvals.");
         }
         System.out.println("Enter Employee ID to be Edited:");
-        
+
         double empID = Double.parseDouble(sn.nextLine());
 
         pstmt = con.prepareStatement("Select * From Employees Where Employee_Id=?");
@@ -136,16 +153,12 @@ public class Query {
             System.out.print("New organization: ");
             e.setOrg(sn.nextLine());
 
-            if(user1.getPermission().equals("admn"))
-            {
-            pstmt = con.prepareStatement("update Employees set first_name=?,last_name=?,"
-                    + "verticle=?,project=?,skills=?,grade=?,band=?, organization=?"
-                    + "Where employee_id=?");
-            }
-            else{
+            if (user1.getPermission().equals("admn")) {
                 pstmt = con.prepareStatement("update Employees set first_name=?,last_name=?,"
-                    + "verticle=?,project=?,skills=?,grade=?,band=?,pending_approval=true, organization=?"
-                    + "Where employee_id = ?");
+                        + "verticle=?,project=?,skills=?,grade=?,band=?, organization=?"
+                        + "Where employee_id=?");
+            } else {
+                pstmt = con.prepareStatement("insert into Employees VALUES (?,?,?,?,?,?,?,true,?,?)");
             }
             pstmt.setString(1, e.getFirstName());
             pstmt.setString(2, e.getLastName());
@@ -191,9 +204,10 @@ public class Query {
         pstmt.execute();
         ResultSet rset = pstmt.getResultSet();
 
+        System.out.println("Employee Name        Emp. ID     Band  Grade Vertical             Organization\n");
         while (rset.next()) {
             Employees emp = new Employees(rset);
-            System.out.println(emp);
+            System.out.println(emp.display());
             emps.add(emp);
         }
 

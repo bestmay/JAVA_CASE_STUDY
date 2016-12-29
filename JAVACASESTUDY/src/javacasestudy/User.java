@@ -36,7 +36,6 @@ public class User {
     public boolean userLogin() {
         try {
             Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/trng", "trng1", "trng1");
-            System.out.println(con.isClosed());
             Statement stmt = con.createStatement();
             System.out.println("Connected to Oracle DB");
 

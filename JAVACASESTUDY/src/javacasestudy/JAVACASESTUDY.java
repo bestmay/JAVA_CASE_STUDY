@@ -26,7 +26,7 @@ public class JAVACASESTUDY {
         boolean cont = true;
 
         while (cont) {
-            if (user1.getPermission() == "user") {
+            if (user1.getPermission().equals("user")) {
                 System.out.println("Type what would you like to do:");
                 System.out.println("VIEW | EDIT | QUIT");
             } else {

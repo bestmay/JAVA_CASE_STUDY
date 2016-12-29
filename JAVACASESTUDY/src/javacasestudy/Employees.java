@@ -38,15 +38,15 @@ public class Employees {
 
     public Employees(ResultSet rset) {
         try {
-            this.empId = rset.getDouble(1);
-            this.firstName = rset.getString(2);
-            this.lastName = rset.getString(3);
-            this.vertical = rset.getString(4);
-            this.project = rset.getString(5);
-            this.skills = rset.getString(6);
-            this.grade = rset.getString(7);
-            this.band = rset.getString(8);
-            this.org = rset.getString(10);
+            this.empId = rset.getDouble(10);
+            this.firstName = rset.getString(1);
+            this.lastName = rset.getString(2);
+            this.vertical = rset.getString(3);
+            this.project = rset.getString(4);
+            this.skills = rset.getString(5);
+            this.grade = rset.getString(6);
+            this.band = rset.getString(7);
+            this.org = rset.getString(9);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -132,6 +132,10 @@ public class Employees {
     @Override
     public String toString() {
         return "Name: " + firstName + " " + lastName + "  Employee Id: " + (int)empId + "  band: " + band + "  grade: " + grade + "  vertical: " + vertical + "  project: " + project + "  skills: " + skills + "  org: " + org;
+    }
+    
+    public String display(){
+        return String.format("%-20s %-11s %-5s %-5s %-20s %-20s", firstName + " " + lastName,empId,band,grade,vertical,org);
     }
 
 }
