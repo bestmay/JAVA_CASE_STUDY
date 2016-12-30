@@ -18,27 +18,23 @@ import java.util.Scanner;
  */
 public class User {
 
-    String permission;
-    String username;
-    
+    private String permission;
+    private String username;
+
     public User() {
-        while(true)
-        {
-            if(userLogin())
-            {
-                System.out.println("Welcome "+ username);
+        while (true) {
+            if (userLogin()) {
+                System.out.println("Welcome " + username);
                 break;
-            }
-            else{
+            } else {
                 System.out.println("Username or Password incorrect");
             }
         }
-      
+
     }
 
     public boolean userLogin() {
         try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
             Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/trng", "trng1", "trng1");
             Statement stmt = con.createStatement();
             System.out.println("Connected to Oracle DB");
@@ -59,12 +55,22 @@ public class User {
             } else {
                 permission = rset.getString(2);
                 username = rset.getString(1);
+                con.close();
                 return true;
             }
+
         } catch (Exception ex) {
             System.out.println(ex);
             return false;
         }
-        
     }
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
 }

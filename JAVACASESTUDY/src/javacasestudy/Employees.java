@@ -3,16 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package JavaCaseStudy;
+package javacasestudy;
 
-import java.util.Scanner;
+import java.sql.ResultSet;
+
 /**
  *
  * @author syntel
  */
 public class Employees {
-    private String name;
-    private double EmpId;
+
+    private String firstName;
+    private String lastName;
+    private double empId;
     private String band;
     private String grade;
     private String vertical;
@@ -20,10 +23,11 @@ public class Employees {
     private String skills;
     private String org;
 
-    public Employees(String name, double EmpId, String band, String grade, 
+    public Employees(String firstName, String lastName, double EmpId, String band, String grade,
             String vertical, String project, String skills, String org) {
-        this.name = name;
-        this.EmpId = EmpId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.empId = EmpId;
         this.band = band;
         this.grade = grade;
         this.vertical = vertical;
@@ -32,20 +36,49 @@ public class Employees {
         this.org = org;
     }
 
-    public String getName() {
-        return name;
+    public Employees(ResultSet rset) {
+        try {
+            this.empId = rset.getDouble(10);
+            this.firstName = rset.getString(1);
+            this.lastName = rset.getString(2);
+            this.vertical = rset.getString(3);
+            this.project = rset.getString(4);
+            this.skills = rset.getString(5);
+            this.grade = rset.getString(6);
+            this.band = rset.getString(7);
+            this.org = rset.getString(9);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public Employees()
+    {
+        
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String name) {
+        this.firstName = name;
+    }
+    
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public double getEmpId() {
-        return EmpId;
-    }
+        return empId;
+    }   
 
-    public void setEmpId(long EmpId) {
-        this.EmpId = EmpId;
+    public void setEmpId(double EmpId) {
+        this.empId = EmpId;
     }
 
     public String getBand() {
@@ -94,27 +127,15 @@ public class Employees {
 
     public void setOrg(String org) {
         this.org = org;
-    }   
-    
-    public static void main(String[] args) {
-        /*Scanner in = new Scanner(System.in);
-        
-        System.out.println("Name");
-        name = in.nextLine();
-        
-        System.out.println("Employee ID");
-        
-        System.out.println("Band");
-        
-        System.out.println("Grade");
-        
-        System.out.println("Vertical");
-        
-        System.out.println("Project");
-        
-        System.out.println("Skills");
-        
-        System.out.println("Organization");
-        */
     }
+
+    @Override
+    public String toString() {
+        return "Name: " + firstName + " " + lastName + "  Employee Id: " + (int)empId + "  band: " + band + "  grade: " + grade + "  vertical: " + vertical + "  project: " + project + "  skills: " + skills + "  org: " + org;
+    }
+    
+    public String display(){
+        return String.format("%-20s %-11s %-5s %-5s %-20s %-20s", firstName + " " + lastName,empId,band,grade,vertical,org);
+    }
+
 }
