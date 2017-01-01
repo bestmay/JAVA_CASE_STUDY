@@ -38,15 +38,16 @@ public class Employees {
 
     public Employees(ResultSet rset) {
         try {
-            this.empId = rset.getDouble(10);
-            this.firstName = rset.getString(1);
-            this.lastName = rset.getString(2);
-            this.vertical = rset.getString(3);
-            this.project = rset.getString(4);
-            this.skills = rset.getString(5);
-            this.grade = rset.getString(6);
-            this.band = rset.getString(7);
-            this.org = rset.getString(9);
+            //1-ID,2-FName,3-LName,4-Vertical,5-Project,6-Skills,7-grade
+            this.empId = rset.getDouble(1);
+            this.firstName = rset.getString(2);
+            this.lastName = rset.getString(3);
+            this.vertical = rset.getString(4);
+            this.project = rset.getString(5);
+            this.skills = rset.getString(6);
+            this.grade = rset.getString(8);
+            this.band = rset.getString(9);
+            this.org = rset.getString(11);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
