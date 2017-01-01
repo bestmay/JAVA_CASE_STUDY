@@ -14,6 +14,7 @@ import java.util.Scanner;
  * @author syntel
  */
 public class Query {
+    private static Object Interger;
 
     public static void viewEmployee(User user1) throws SQLException {
 
@@ -204,7 +205,8 @@ public class Query {
     }
 
     private static int displayEditMenu(Scanner kb, User user1) {
-        int myOption = 0;
+        int myOption=10;
+        String s;
         if (user1.getPermission().equals("admn")) {
             do {
                 try {
@@ -216,8 +218,12 @@ public class Query {
                             + "6)Project \n"
                             + "7)Skills \n"
                             + "8)Organization \n"
-                            + "9)Employee ID"
-                            + "0)Quit Edit Menu");
+                            + "9)Employee ID \n"
+                            + "0)Quit Edit Menu\n");
+                    System.out.print("Choice->");
+                    System.out.println(myOption=kb.nextInt());
+                    s=kb.nextLine();
+                    
                 } catch (Exception e) {
                     System.out.println("Invalid input, please re-enter a valid option");
                 }
@@ -229,6 +235,9 @@ public class Query {
                         + "2)Last Name \n"
                         + "3)Skills \n"
                         + "0)Quit Edit Menu");
+                    System.out.print("Choice->");
+                    System.out.println(myOption=kb.nextInt());
+                    s=kb.nextLine();
             } while (myOption != 1 && myOption != 2 && myOption != 3 && myOption != 0);
             if (myOption == 3) {
                 myOption = 7;
@@ -297,7 +306,6 @@ public class Query {
             rset = pstmt.getResultSet();
         } else {
             pstmt = con.prepareStatement("insert into Employees VALUES (?,?,?,?,?,user,?,?,true,?)");
-            pstmt.setDouble(9, empID);
             pstmt.setString(1, e.getFirstName());
             pstmt.setString(2, e.getLastName());
             pstmt.setString(3, e.getVertical());
@@ -306,11 +314,13 @@ public class Query {
             pstmt.setString(6, e.getGrade());
             pstmt.setString(7, e.getBand());
             pstmt.setString(8, e.getOrg());
+            pstmt.setDouble(9, empID);
             pstmt.execute();
             rset = pstmt.getResultSet();
-        //}
+            //}
 
-        System.out.println("Employee Edited!");
+            System.out.println("Employee Edited!");
+        }
+
     }
-
 }
