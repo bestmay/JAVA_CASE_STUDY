@@ -36,31 +36,47 @@ public class JAVACASESTUDY {
             Scanner sn = new Scanner(System.in);
             String ans = sn.nextLine();
             try {
-                switch (ans.toUpperCase()) {
-                    case "ADD":
-                        Query.addEmployee();
-                        break;
-                    case "VIEW":
-                        Query.viewEmployee(user1);
-                        break;
-                    case "EDIT":
-                        Query.editEmployee(user1);
-                        break;
-                    case "REMOVE":
-                        Query.removeEmployee();
-                        break;
-                    case "REPORT":
-                        Query.generateReport();
-                        break;
-                    case "QUIT":
-                        cont = false;
-                        break;
-                    default:
-                        System.out.println("Command" + ans.toUpperCase() + " not found.");
-                        break;
+                if (user1.getPermission().equals("user")) {
+                    switch (ans.toUpperCase()) {
+                        case "VIEW":
+                            Query.viewEmployee(user1);
+                            break;
+                        case "EDIT":
+                            Query.editEmployee(user1);
+                            break;
+                        case "QUIT":
+                            cont = false;
+                            break;
+                        default:
+                            System.out.println("Command" + ans.toUpperCase() + " not found.");
+                            break;
+                    }
+                } else {
+                    switch (ans.toUpperCase()) {
+                        case "ADD":
+                            Query.addEmployee();
+                            break;
+                        case "VIEW":
+                            Query.viewEmployee(user1);
+                            break;
+                        case "EDIT":
+                            Query.editEmployee(user1);
+                            break;
+                        case "REMOVE":
+                            Query.removeEmployee();
+                            break;
+                        case "REPORT":
+                            Query.generateReport();
+                            break;
+                        case "QUIT":
+                            cont = false;
+                            break;
+                        default:
+                            System.out.println("Command " + ans.toUpperCase() + " not found.");
+                            break;
 
+                    }
                 }
-
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

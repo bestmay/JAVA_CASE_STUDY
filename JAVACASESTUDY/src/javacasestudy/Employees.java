@@ -15,7 +15,7 @@ public class Employees {
 
     private String firstName;
     private String lastName;
-    private double empId;
+    private int empId;
     private String band;
     private String grade;
     private String vertical;
@@ -23,7 +23,7 @@ public class Employees {
     private String skills;
     private String org;
 
-    public Employees(String firstName, String lastName, double EmpId, String band, String grade,
+    public Employees(String firstName, String lastName, int EmpId, String band, String grade,
             String vertical, String project, String skills, String org) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -39,7 +39,7 @@ public class Employees {
     public Employees(ResultSet rset) {
         try {
             //1-ID,2-FName,3-LName,4-Vertical,5-Project,6-Skills,7-grade
-            this.empId = rset.getDouble(1);
+            this.empId = rset.getInt(1);
             this.firstName = rset.getString(2);
             this.lastName = rset.getString(3);
             this.vertical = rset.getString(4);
@@ -74,11 +74,11 @@ public class Employees {
         this.lastName = lastName;
     }
 
-    public double getEmpId() {
+    public int getEmpId() {
         return empId;
     }   
 
-    public void setEmpId(double EmpId) {
+    public void setEmpId(int EmpId) {
         this.empId = EmpId;
     }
 
@@ -132,7 +132,7 @@ public class Employees {
 
     @Override
     public String toString() {
-        return "Name: " + firstName + " " + lastName + "  Employee Id: " + (int)empId + "  band: " + band + "  grade: " + grade + "  vertical: " + vertical + "  project: " + project + "  skills: " + skills + "  org: " + org;
+        return "Name: " + firstName + " " + lastName + "  Employee Id: " + empId + "  band: " + band + "  grade: " + grade + "  vertical: " + vertical + "  project: " + project + "  skills: " + skills + "  org: " + org;
     }
     
     public String display(){

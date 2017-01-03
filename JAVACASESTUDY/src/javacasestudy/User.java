@@ -20,7 +20,7 @@ public class User {
 
     private String permission;
     private String username;
-    private double id;
+    private int id;
 
     public User() {
         while (true) {
@@ -56,7 +56,7 @@ public class User {
             } else {
                 permission = rset.getString(2);
                 username = rset.getString(1);
-                id=rset.getDouble(3);
+                id=rset.getInt(3);
                 con.close();
                 return true;
             }
@@ -74,7 +74,7 @@ public class User {
     public String getUsername() {
         return username;
     }
-    public double getId(){
+    public int getId(){
         return id;
     }
 }

@@ -54,7 +54,7 @@ public class Query {
         System.out.println("Please input new employee's last name:");
         e.setLastName(kb.nextLine());
         System.out.println("Please input new employee's id:");
-        e.setEmpId(Double.parseDouble(kb.nextLine()));
+        e.setEmpId(Integer.parseInt(kb.nextLine()));
         System.out.println("Please input new employee's band:");
         e.setBand(kb.nextLine());
         System.out.println("Please input new employee's grade:");
@@ -70,18 +70,26 @@ public class Query {
         try {
             Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/trng", "trng1", "trng1");
             Statement stmt = con.createStatement();
-            PreparedStatement pstmt = con.prepareStatement("INSERT INTO Employees VALUES(?,?,?,?,?,?,?,false,?,?)");
-            pstmt.setDouble(9, e.getEmpId());
-            pstmt.setString(1, e.getFirstName());
-            pstmt.setString(2, e.getLastName());
-            pstmt.setString(3, e.getVertical());
-            pstmt.setString(4, e.getProject());
-            pstmt.setString(5, e.getSkills());
-            pstmt.setString(6, e.getGrade());
-            pstmt.setString(7, e.getBand());
-            pstmt.setString(8, e.getOrg());
+            PreparedStatement pstmt = con.prepareStatement("INSERT INTO Employees VALUES(?,?,?,?,?,?,user,?,?,false,?)");
+            pstmt.setDouble(1, e.getEmpId());
+            pstmt.setString(2, e.getFirstName());
+            pstmt.setString(3, e.getLastName());
+            pstmt.setString(4, e.getVertical());
+            pstmt.setString(5, e.getProject());
+            pstmt.setString(6, e.getSkills());
+            pstmt.setString(7, e.getGrade());
+            pstmt.setString(8, e.getBand());
+            pstmt.setString(9, e.getOrg());
             pstmt.execute();
-            ResultSet rset = pstmt.getResultSet();
+            String eid=e.getFirstName().substring(0,1);
+            eid+=e.getLastName().substring(0,1);
+            eid+=e.getEmpId();
+            PreparedStatement pst=con.prepareStatement("INSERT INTO LOGIN_INFO VALUES(?,default,default,?)");
+            pst.setString(1,eid);
+            pst.setInt(2,e.getEmpId());
+            pst.execute();
+            
+            //ResultSet rset = pstmt.getResultSet();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -98,7 +106,7 @@ public class Query {
             while (rset.next()) {
                 Employees emp = new Employees(rset);
                 pstmt = con.prepareStatement("Select * From Employees Where pending_approval=false and employee_id=?");
-                pstmt.setDouble(1, emp.getEmpId());
+                pstmt.setInt(1, emp.getEmpId());
                 pstmt.execute();
                 ResultSet rset2 = pstmt.getResultSet();
                 if (rset2.next()) {
@@ -126,16 +134,16 @@ public class Query {
         }
         System.out.println("Enter Employee ID to be Edited:");
 
-        double empID = Double.parseDouble(sn.nextLine());
+        int empID = Integer.parseInt(sn.nextLine());
 
         if (user1.getPermission().equals("admn")) {
             pstmt = con.prepareStatement("Select * From Employees Where Employee_Id=?");
-            pstmt.setDouble(1, empID);
+            pstmt.setInt(1, empID);
         } else {
-            double i = user1.getId();
+            int i = user1.getId();
             pstmt = con.prepareStatement("Select * From Employees Where Employee_Id=? AND Employee_Id=?");
-            pstmt.setDouble(1, empID);
-            pstmt.setDouble(2, i);
+            pstmt.setInt(1, empID);
+            pstmt.setInt(2, i);
         }
 
         pstmt.execute();
@@ -156,13 +164,13 @@ public class Query {
 
     public static void removeEmployee() throws SQLException {
         Scanner kb = new Scanner(System.in);
-        double id;
+        int id;
         System.out.println("Please enter employee id to remove:");
         Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/trng", "trng1", "trng1");
         Statement stmt = con.createStatement();
-        id = kb.nextDouble();
+        id = kb.nextInt();
         PreparedStatement pstmt = con.prepareStatement("DELETE From Employees Where Employee_Id=?");
-        pstmt.setDouble(1, id);
+        pstmt.setInt(1, id);
         pstmt.execute();
         System.out.println("Employee " + id + " Deleted");
     }
@@ -247,7 +255,7 @@ public class Query {
         return myOption;
     }
 
-    private static void executeMenuOption(int option, User user1, Employees e, Scanner sn, Double empID) throws SQLException {
+    private static void executeMenuOption(int option, User user1, Employees e, Scanner sn, int empID) throws SQLException {
         Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/trng", "trng1", "trng1");
         PreparedStatement pstmt;
         ResultSet rset;
@@ -286,7 +294,7 @@ public class Query {
         } else if (option == 9) {
             System.out.println("Current Employee ID: " + e.getEmpId());
             System.out.println("New Employee ID: ");
-            e.setEmpId(sn.nextDouble());
+            e.setEmpId(sn.nextInt());
         }
 
         if (user1.getPermission().equals("admn")) {
@@ -301,11 +309,13 @@ public class Query {
             pstmt.setString(6, e.getGrade());
             pstmt.setString(7, e.getBand());
             pstmt.setString(8, e.getOrg());
-            pstmt.setDouble(9, empID);
+            pstmt.setInt(9, empID);
             pstmt.execute();
             rset = pstmt.getResultSet();
         } else {
-            pstmt = con.prepareStatement("insert into Employees VALUES (?,?,?,?,?,user,?,?,true,?)");
+            pstmt = con.prepareStatement("Update Employees Set first_name=?,last_name=?,verticle=?,project=?,skills=?,"
+                    + "permission_level=user,grade=?,band=?,pending_approval=true,"
+                    + "organization=? Where Employees.employee_id=?");
             pstmt.setString(1, e.getFirstName());
             pstmt.setString(2, e.getLastName());
             pstmt.setString(3, e.getVertical());
