@@ -20,6 +20,7 @@ public class User {
 
     private String permission;
     private String username;
+    private String password;
     private int id;
 
     public User() {
@@ -45,7 +46,7 @@ public class User {
             String userID = sn.nextLine();
             System.out.println("Password:");
             String userPassword = sn.nextLine();
-            PreparedStatement pstmt = con.prepareStatement("select username, permission_level,employee_id from login_info WHERE username = ? and password = ?");
+            PreparedStatement pstmt = con.prepareStatement("select username, permission_level,employee_id,password from login_info WHERE username = ? and password = ?");
 
             pstmt.setString(1, userID);
             pstmt.setString(2, userPassword);
@@ -57,6 +58,7 @@ public class User {
                 permission = rset.getString(2);
                 username = rset.getString(1);
                 id=rset.getInt(3);
+                password=rset.getString(4);
                 con.close();
                 return true;
             }
@@ -65,6 +67,10 @@ public class User {
             System.out.println(ex);
             return false;
         }
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getPermission() {
@@ -77,4 +83,9 @@ public class User {
     public int getId(){
         return id;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
 }

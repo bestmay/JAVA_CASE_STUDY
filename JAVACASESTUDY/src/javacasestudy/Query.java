@@ -227,6 +227,7 @@ public class Query {
                             + "7)Skills \n"
                             + "8)Organization \n"
                             + "9)Employee ID \n"
+                            +"10)Edit Password\n"
                             + "0)Quit Edit Menu\n");
                     System.out.print("Choice->");
                     System.out.println(myOption=kb.nextInt());
@@ -236,19 +237,23 @@ public class Query {
                     System.out.println("Invalid input, please re-enter a valid option");
                 }
             } while (myOption != 1 && myOption != 2 && myOption != 3 && myOption != 4 && myOption != 5 && myOption != 6 && myOption != 7
-                    && myOption != 8 && myOption != 9 && myOption != 0);
+                    && myOption != 8 && myOption != 9 && myOption!=10&& myOption != 0);
         } else {
             do {
                 System.out.println("\n1)First Name \n"
                         + "2)Last Name \n"
                         + "3)Skills \n"
+                        + "4)Edit Password\n"
                         + "0)Quit Edit Menu");
                     System.out.print("Choice->");
                     System.out.println(myOption=kb.nextInt());
                     s=kb.nextLine();
-            } while (myOption != 1 && myOption != 2 && myOption != 3 && myOption != 0);
+            } while (myOption != 1 && myOption != 2 && myOption != 3 && myOption !=4 && myOption != 0);
             if (myOption == 3) {
                 myOption = 7;
+            }
+            if(myOption == 4){
+                myOption=10;
             }
         }
 
@@ -295,6 +300,11 @@ public class Query {
             System.out.println("Current Employee ID: " + e.getEmpId());
             System.out.println("New Employee ID: ");
             e.setEmpId(sn.nextInt());
+        } else if(option == 10){
+            System.out.println("Current Password: "+user1.getPassword());
+            System.out.println("New Password: ");
+            user1.setPassword(sn.nextLine());
+            executeUserUpdate(user1,con);
         }
 
         if (user1.getPermission().equals("admn")) {
@@ -311,7 +321,6 @@ public class Query {
             pstmt.setString(8, e.getOrg());
             pstmt.setInt(9, empID);
             pstmt.execute();
-            rset = pstmt.getResultSet();
         } else {
             pstmt = con.prepareStatement("Update Employees Set first_name=?,last_name=?,verticle=?,project=?,skills=?,"
                     + "permission_level=user,grade=?,band=?,pending_approval=true,"
@@ -324,13 +333,19 @@ public class Query {
             pstmt.setString(6, e.getGrade());
             pstmt.setString(7, e.getBand());
             pstmt.setString(8, e.getOrg());
-            pstmt.setDouble(9, empID);
+            pstmt.setInt(9, empID);
             pstmt.execute();
-            rset = pstmt.getResultSet();
-            //}
 
             System.out.println("Employee Edited!");
         }
 
+    }
+
+    private static void executeUserUpdate(User user1, Connection con) throws SQLException {
+       PreparedStatement pstmt = con.prepareStatement("update Login_Info set password=? Where employee_id=?");
+       pstmt.setString(1,user1.getPassword());
+       pstmt.setInt(2, user1.getId());
+       pstmt.execute();
+        
     }
 }
