@@ -70,7 +70,7 @@ public class Query {
         try {
             Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/trng", "trng1", "trng1");
             Statement stmt = con.createStatement();
-            PreparedStatement pstmt = con.prepareStatement("INSERT INTO Employees VALUES(?,?,?,?,?,?,user,?,?,false,?)");
+            PreparedStatement pstmt = con.prepareStatement("INSERT INTO Employees VALUES(?,?,?,?,?,?,?,?,false,?)");
             pstmt.setDouble(1, e.getEmpId());
             pstmt.setString(2, e.getFirstName());
             pstmt.setString(3, e.getLastName());

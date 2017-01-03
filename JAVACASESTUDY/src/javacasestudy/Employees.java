@@ -47,7 +47,7 @@ public class Employees {
             this.skills = rset.getString(6);
             this.grade = rset.getString(8);
             this.band = rset.getString(9);
-            this.org = rset.getString(11);
+            this.org = rset.getString(10);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
