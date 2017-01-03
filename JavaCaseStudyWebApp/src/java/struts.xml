@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts> 
+    <package name="First" namespace="/" extends="struts-default">
+        <action name="loginAction" class="Action.LoginAction" method="run">
+            <result name="Success">Menu.html</result>
+            <result name="input">Login.jsp</result>
+        </action>
+        <action name="addEmployeeAction" class="Action.AddEmployeeAction" method="run">
+            <result name="Success">Menu.html</result>
+            <result name="input">Login.jsp</result>
+        </action>
+    </package>
+</struts>
