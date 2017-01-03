@@ -1,10 +1,14 @@
+package Controller;
+
+import DAO.EmpDAO;
+import POJO.Employees;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.SimpleFormController;
 
 
-package Action;
-
-import com.opensymphony.xwork2.ActionSupport;
-
-public class AddEmployeeAction extends ActionSupport{
+public class AddEmployee extends SimpleFormController{
     private String firstName;
     private String lastName;
     private double empId;

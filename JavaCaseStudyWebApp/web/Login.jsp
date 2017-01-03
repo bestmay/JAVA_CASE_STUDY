@@ -1,7 +1,7 @@
 
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib uri="/struts-tags" prefix="s" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%> 
 <!DOCTYPE html>
 
 <html>
@@ -11,17 +11,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>     
-        <form action="loginAction.action">
-            <s:actionerror></s:actionerror>
-            User name:<br>
-            <input type="text" name="username" placeholder="User name"><br>
-            <s:fielderror></s:fielderror>
-            Password:<br>
-            <input type="password" name="password" placeholder="Password"><br>
-            <s:fielderror></s:fielderror>
-
-            <input type="Submit" Value="Submit">
-            <input type="reset" Value="Reset">
-        </form>
+        <form:form method="POST" commandName="user"> 
+        <table> 
+            <tr> 
+                <td>User Name :</td> 
+                <td><form:input path="username" /></td> 
+                <td><form:errors path="username" cssClass="error" /></td>
+            </tr> 
+            <tr> 
+                <td>Password :</td> 
+                <td><form:password path="password" /></td> 
+                <td><form:errors path="password" cssClass="error" /></td>
+            </tr> 
+            <tr> 
+                <td colspan="2">
+                <input type="submit"></td> 
+            </tr> 
+        </table> 
+        </form:form>
     </body>
 </html>
