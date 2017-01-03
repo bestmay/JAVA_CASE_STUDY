@@ -5,7 +5,7 @@
  */
 package DAO;
 
-import domain.Employee;
+import domain.Employees;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.RowMapperResultSetExtractor;
 import java.sql.*;
@@ -13,7 +13,7 @@ import java.sql.*;
 class EmployeeRowMapper implements RowMapper {
 
     public Object mapRow(ResultSet rs, int index) throws SQLException {
-        Employee e = new Employee(rs);
+        Employees e = new Employees(rs);
         return e;
     }
 }

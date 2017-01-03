@@ -9,7 +9,7 @@ package DAO;
  *
  * @author syntel
  */
-import domain.Employee;
+import domain.Employees;
 import java.sql.Types;
 import java.util.Iterator;
 import java.util.List;
@@ -31,7 +31,7 @@ public class EmpDAO1 implements EmpDAO {
     }
 
     @Override
-    public void createRecord(Employee e) {
+    public void createRecord(Employees e) {
         /*String query="insert into Emp values('"+e.getEmpId()+"','"+e.getEmpName()+"',"+e.getSalary()+")";
          jdbcTemplate.update(query);*/
 
@@ -95,14 +95,14 @@ public class EmpDAO1 implements EmpDAO {
         return l;
     }
 
-    public Employee getEmpByName(String name) {
+    public Employees getEmpByName(String name) {
         //JdbcTemplate jt = getJdbcTemplate();
         Object o[] = {name};
         int argsTypes[] = {Types.VARCHAR};
         RowMapper mapper = new EmployeeRowMapper();
         List l = jdbcTemplate.query("select * from Emp", o, argsTypes, mapper);
         Iterator it = l.iterator();
-        Employee e = (Employee) it.next();
+        Employees e = (Employees) it.next();
         return e;
     }
 }

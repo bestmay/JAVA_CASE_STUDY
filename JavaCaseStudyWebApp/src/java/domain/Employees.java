@@ -11,7 +11,7 @@ import java.sql.ResultSet;
  *
  * @author syntel
  */
-public class Employee {
+public class Employees {
 
     private String firstName;
     private String lastName;
@@ -23,7 +23,7 @@ public class Employee {
     private String skills;
     private String org;
 
-    public Employee(String firstName, String lastName, double EmpId, String band, String grade,
+    public Employees(String firstName, String lastName, double EmpId, String band, String grade,
             String vertical, String project, String skills, String org) {
         this.empId = EmpId;
         this.firstName = firstName;
@@ -36,7 +36,7 @@ public class Employee {
         this.org = org;
     }
 
-    public Employee(ResultSet rset) {
+    public Employees(ResultSet rset) {
         try {
             this.empId = rset.getDouble(10);
             this.firstName = rset.getString(1);
@@ -52,7 +52,7 @@ public class Employee {
         }
     }
     
-    public Employee()
+    public Employees()
     {
         
     }
